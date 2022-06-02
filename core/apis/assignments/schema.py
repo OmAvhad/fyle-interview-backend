@@ -36,3 +36,23 @@ class AssignmentSubmitSchema(Schema):
     def initiate_class(self, data_dict, many, partial):
         # pylint: disable=unused-argument,no-self-use
         return GeneralObject(**data_dict)
+
+
+class AssignmentGradeSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Assignment
+        unknown = EXCLUDE
+
+    id = auto_field(required=False, allow_none=True)
+    content = auto_field(dump_only=True)
+    created_at = auto_field(dump_only=True)
+    updated_at = auto_field(dump_only=True)
+    teacher_id = auto_field(dump_only=True)
+    student_id = auto_field(dump_only=True)
+    grade = auto_field(required=True)
+    state = auto_field(dump_only=True)
+
+    @post_load
+    def initiate_class(self, data_dict, many, partial):
+        # pylint: disable=unused-argument,no-self-use
+        return Assignment(**data_dict)
